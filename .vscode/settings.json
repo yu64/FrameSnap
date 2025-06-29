@@ -1,4 +1,15 @@
 {
     "editor.tabSize": 2,
-    "workbench.tree.indent": 16
+    "workbench.tree.indent": 16,
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/dest": true,
+        "**/node_modules": true,
+        "**/bulid": true,
+        "**/package-lock.json": true
+    }
 }
