@@ -7,9 +7,13 @@
         "**/.hg": true,
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
-        "**/dest": true,
+        "**/dist": true,
         "**/node_modules": true,
         "**/bulid": true,
-        "**/package-lock.json": true
+        "**/package-lock.json": true,
+        "**/tsconfig.app.json": true,
+        "**/tsconfig.node.json": true,
+        "**/uno.config.ts": true,
+        "**/vite.config.ts": true,
     }
 }
