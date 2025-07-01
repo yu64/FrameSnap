@@ -4,6 +4,7 @@ import UnoCSS from 'unocss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: (process.env.GITHUB_PAGES ? './FrameSnap' : './'),
   plugins: [
     react(),
     UnoCSS({
@@ -14,5 +15,32 @@ export default defineConfig({
     alias: {
       '@': '/src',
     },
+  },
+  build: {
+    outDir: '../dist',
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        entryFileNames: `[name].js`,
+        chunkFileNames: `modules/[name].js`,
+        assetFileNames: (assetInfo) => {
+
+          for(let name of assetInfo.names)
+          {
+            if(/\.( gif|jpeg|jpg|png|svg|webp| )$/.test(name))
+            {
+              return 'assets/images/[name].[ext]';
+            }
+
+            if(/\.css$/.test(name))
+            {
+              return 'assets/css/[name].[ext]';
+            }
+          }
+
+          return 'assets/[name].[ext]';
+        }
+      }
+    }
   },
 })
