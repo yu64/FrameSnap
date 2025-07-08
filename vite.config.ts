@@ -21,7 +21,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       output: {
-        entryFileNames: `[name].js`,
+        entryFileNames: `index.tsx`,
         chunkFileNames: `modules/[name].js`,
         assetFileNames: (assetInfo) => {
 
