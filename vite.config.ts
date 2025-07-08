@@ -20,8 +20,11 @@ export default defineConfig({
     outDir: './dist',
     emptyOutDir: true,
     rollupOptions: {
+      input: {
+        index: "./src/index.html"
+      },
       output: {
-        entryFileNames: `index.tsx`,
+        entryFileNames: `[name].js`,
         chunkFileNames: `modules/[name].js`,
         assetFileNames: (assetInfo) => {
 
