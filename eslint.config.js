@@ -64,6 +64,12 @@ export default tseslint.config([
       'no-duplicate-imports': 'error',
       'import/no-duplicates': 'error',
 
+      // 未使用変数を許可
+      'no-unused-vars': "off",
+
+      // グローバル変数を不許可
+      "no-implicit-globals": "error"
+
       // アーリーリターン推奨（標準ルールなし、コメントでガイド）
 
       // メソッド呼び出しの深さ（標準ルールなし、コメントでガイド）

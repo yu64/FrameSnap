@@ -1,49 +1,25 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import UnoCSS from 'unocss/vite'
+import path from "path"
 
 // https://vite.dev/config/
 export default defineConfig({
+  root: path.resolve(__dirname, 'src'),
   base: (process.env.GITHUB_PAGES ? './FrameSnap' : './'),
   plugins: [
     react(),
     UnoCSS({
-      configFile: './uno.config.ts',
+      configFile: path.resolve(__dirname, 'uno.config.ts'),
     }),
   ],
   resolve: {
     alias: {
-      '@': '/src',
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   build: {
-    outDir: './dist',
+    outDir: path.resolve(__dirname, 'dist'),
     emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        index: "./src/index.html"
-      },
-      output: {
-        entryFileNames: `[name].js`,
-        chunkFileNames: `modules/[name].js`,
-        assetFileNames: (assetInfo) => {
-
-          for(let name of assetInfo.names)
-          {
-            if(/\.( gif|jpeg|jpg|png|svg|webp| )$/.test(name))
-            {
-              return 'assets/images/[name].[ext]';
-            }
-
-            if(/\.css$/.test(name))
-            {
-              return 'assets/css/[name].[ext]';
-            }
-          }
-
-          return 'assets/[name].[ext]';
-        }
-      }
-    }
   },
 })

@@ -11,9 +11,11 @@
         "**/node_modules": true,
         "**/bulid": true,
         "**/package-lock.json": true,
-        "**/tsconfig.app.json": true,
-        "**/tsconfig.node.json": true,
-        "**/uno.config.ts": true,
+        "**/tsconfig.app.json": false,
+        "**/tsconfig.node.json": false,
+        "**/uno.config.ts": false,
         "**/vite.config.ts": false,
-    }
+    },
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifierEnding": "js"
 }
