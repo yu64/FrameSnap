@@ -53,10 +53,7 @@ jobs:
           path-to-root: "./dist"
 
       - name: Copy from doc to dist
-        uses: canastro/copy-file-action@master
-        with:
-          source: "./doc/*"
-          target: ./dist/*"
+        run: "\\cp -af ./doc/* ./dist/*"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
