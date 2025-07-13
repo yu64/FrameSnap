@@ -4,11 +4,17 @@ import { usePressRepeatHandler } from "@/utils/usePressRepeatHandler.ts";
 import { useAtom } from "jotai"
 import type { ButtonHTMLAttributes } from "react";
 
-export function FrameButtons()
+
+type Props = {
+  onSave?: () => void
+}
+
+export function ButtonArea(props: Props)
 {
+  const [fps] = useAtom(fpsAtom);
+
   const [currentTime, setCurrentTime] = useAtom(currentTimeAtom);
   const [currentFrame] = useAtom(currentFrameAtom);
-  const [fps] = useAtom(fpsAtom);
 
   const longPressHandlers = [
     usePressRepeatHandler<HTMLButtonElement>(350, 50),
@@ -29,6 +35,7 @@ export function FrameButtons()
     const target = currentFrame + frame;
     setCurrentTime(target / fps);
   }
+
 
 
   return <div
@@ -66,6 +73,7 @@ export function FrameButtons()
         px-4 py-2
         hover:bg-blue-100
       `}
+      onClick={() => props.onSave?.()}
     >フレームを抽出</ControlButton>
     
     <div

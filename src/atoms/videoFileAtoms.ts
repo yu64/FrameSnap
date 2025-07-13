@@ -18,6 +18,9 @@ export const maxFrameAtom = atom<number>((get) =>
   return Math.round(get(durationAtom) * get(fpsAtom));
 });
 
+export const videoHeightAtom = atom<number>(0);
+export const videoWidthAtom = atom<number>(0);
+
 
 
 
