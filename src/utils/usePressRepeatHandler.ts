@@ -68,8 +68,6 @@ export function usePressRepeatHandler<E extends HTMLElement>(
         });
       }, startDelay);
 
-      console.log("startup")
-
       // 初期状態としてtimeoutIdのみを保持
       setMode({
         type: "startup",
