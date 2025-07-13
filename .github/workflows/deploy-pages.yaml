@@ -52,6 +52,12 @@ jobs:
           base-url-path: ${{ steps.deployment.outputs.page_url }}
           path-to-root: "./dist"
 
+      - name: Copy from doc to dist
+        uses: canastro/copy-file-action@master
+        with:
+          source: "./doc/*"
+          target: ./dist/*"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
