@@ -46,6 +46,7 @@ jobs:
         uses: actions/configure-pages@v3
         
       - name: Generate the sitemap
+        id: sitemap
         uses: cicirello/generate-sitemap@v1
         with:
           base-url-path: ${{ steps.deployment.outputs.page_url }}
