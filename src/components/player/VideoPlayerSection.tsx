@@ -3,8 +3,9 @@
 import { currentTimeAtom, durationAtom, fileUrlAtom, isPlayingAtom } from "@/atoms/index.ts"
 import { useAtom } from "jotai"
 import { Timeline } from "@/components/player/Timeline.tsx";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { VideoPlayer } from "@/components/player/VideoPlayer.tsx";
+import { FrameButtons } from "@/components/player/FrameButtons.tsx";
 
 
 
@@ -30,8 +31,8 @@ export function VideoPlayerSection()
 
   return <div
     className={`
-      flex flex-col items-center
-      p-4
+      flex flex-col gap-4 items-center 
+      p-2 sm:p-4
       border border-solid rounded-xl border-gray-500
       shadow-lg
     `}
@@ -44,12 +45,13 @@ export function VideoPlayerSection()
       isPlaying={isPlaying}
       onLoadedMetadata={(e) => setVideoMeta(e)}
       onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime ?? 0)}
-      onPlay={(e) => setPlaying(true)}
-      onPause={(e) => setPlaying(false)}
-      onClick={(e) => setPlaying(true)}
+      onPlay={() => setPlaying(true)}
+      onPause={() => setPlaying(false)}
+      onClick={() => setPlaying(!isPlaying)}
     />
 
     <Timeline/>
+    <FrameButtons/>
 
   </div>
 }

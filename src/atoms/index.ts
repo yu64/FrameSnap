@@ -1,2 +1,2 @@
-export * from '@/atoms/videoAtoms.ts';
+export * from '@/atoms/videoFileAtoms.ts';
 export * from '@/atoms/playerAtoms.ts';

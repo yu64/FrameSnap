@@ -35,7 +35,7 @@ export function FileSelectorSection()
   return <label
     className={`
       block
-      p-4
+      p-1 sm:p-4
       border border-solid rounded-xl border-gray-500
       shadow-lg
       cursor-pointer
