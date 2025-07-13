@@ -1,0 +1,21 @@
+{
+  "name": "FrameSnap",
+  "short_name": "FrameSnap",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#222f3e",
+  "theme_color": "#222f3e",
+  "description": "FrameSnapは動画から画像を切り出せるWebアプリです。オンラインかつフロントエンドのみで動作します。",
+  "icons": [
+    {
+      "src": "/ogp.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48 32x32 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
