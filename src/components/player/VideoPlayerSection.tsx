@@ -3,7 +3,8 @@
 import { currentTimeAtom, durationAtom, fileUrlAtom, isPlayingAtom } from "@/atoms/index.ts"
 import { useAtom } from "jotai"
 import { Timeline } from "@/components/player/Timeline.tsx";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { VideoPlayer } from "@/components/player/VideoPlayer.tsx";
 
 
 
@@ -23,23 +24,6 @@ export function VideoPlayerSection()
     setDuration(e.currentTarget.duration);
   }
 
-  // 現在再生位置を適用
-  useEffect(() => 
-  {
-    if(videoRef.current == null) return;
-    videoRef.current.currentTime = currentTime;
-
-  }, [currentTime]);
-
-  useEffect(() => 
-  {
-    if(videoRef.current == null) return;
-
-    if(isPlaying) videoRef.current.play()
-    else videoRef.current.pause();
-
-  }, [isPlaying]);
-  
 
   // 非表示
   if(fileUrl == null) return <div></div>;
@@ -53,14 +37,16 @@ export function VideoPlayerSection()
     `}
   >
 
-    <video
+    <VideoPlayer
       ref={videoRef}
       src={fileUrl}
-      controls
-      onLoadedMetadata={(e) => { setVideoMeta(e); setCurrentTime(0); }}
+      currentTime={currentTime}
+      isPlaying={isPlaying}
+      onLoadedMetadata={(e) => setVideoMeta(e)}
       onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime ?? 0)}
       onPlay={(e) => setPlaying(true)}
       onPause={(e) => setPlaying(false)}
+      onClick={(e) => setPlaying(true)}
     />
 
     <Timeline/>
