@@ -1,4 +1,4 @@
-import { currentFrameAtom, currentTimeAtom, durationAtom, fpsAtom, isPlayingAtom, maxFrameAtom } from "@/atoms";
+import { currentFrameAtom, currentTimeAtom, durationAtom, isPlayingAtom, maxFrameAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import * as TimeUtil from "@/utils/timeUtils.ts";
 import { useRef } from "react";
