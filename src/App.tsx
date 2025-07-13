@@ -7,7 +7,7 @@ export default function App()
 {
   return <div
     className={`
-      flex flex-col gap-8
+      flex flex-col gap-4 sm:gap-8
       p-1 sm:p-4
       min-h-screen
       bg-gray-50

@@ -66,12 +66,14 @@ export function ButtonArea(props: Props)
       >←1F</ControlButton>
     </div>
 
-    <ControlButton 
+    <ControlButton
       className={`
         flex-grow-1
         border rounded-lg
         px-4 py-2
         hover:bg-blue-100
+        active:bg-blue-200
+        select-none
       `}
       onClick={() => props.onSave?.()}
     >フレームを抽出</ControlButton>
@@ -112,6 +114,8 @@ function ControlButton(props: ButtonProps)
       border rounded-lg
       px-5 py-2
       hover:bg-blue-100
+      active:bg-blue-200
+      select-none
     `}
     {...props}
   >

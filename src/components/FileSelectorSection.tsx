@@ -49,6 +49,7 @@ export function FileSelectorSection()
         file:rounded-xl file:border
         file-text-sm
       hover:file:bg-blue-100
+      file:active:bg-blue-200
         cursor-pointer file:cursor-pointer
       `}
       accept="video/*"
