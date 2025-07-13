@@ -50,6 +50,7 @@ jobs:
         uses: cicirello/generate-sitemap@v1
         with:
           base-url-path: ${{ steps.deployment.outputs.page_url }}
+          path-to-root: "./dist"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
