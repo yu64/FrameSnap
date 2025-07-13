@@ -53,7 +53,7 @@ jobs:
           path-to-root: "./dist"
 
       - name: Copy from doc to dist
-        run: "\\cp -af ./doc/* ./dist/*"
+        run: "\\cp -af ./doc/* ./dist"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
