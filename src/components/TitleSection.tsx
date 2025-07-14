@@ -1,4 +1,3 @@
-// ファイル選択コンポーネントのプレースホルダ
 
 
 export function TitleSection()
@@ -7,6 +6,6 @@ export function TitleSection()
     className="flex flex-col items-center"
   >
     <h1 className="text-size-5xl">FrameSnap</h1>
-    <p className="mt-4">[WIP] 動画から画像を切り出します。</p>
+    <p className="mt-4">動画から画像を切り出します。</p>
   </div>
 }

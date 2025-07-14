@@ -1,13 +1,14 @@
-import { currentFrameAtom, currentTimeAtom, durationAtom, isPlayingAtom, maxFrameAtom } from "@/atoms";
 import { useAtom } from "jotai";
 import * as TimeUtil from "@/utils/timeUtils.ts";
 import { useRef } from "react";
 import { useDOMRect } from "@/utils/useDOMRect.ts";
+import { maxFrameAtom, videoMetaAtom } from "@/atoms/videoFileAtoms.ts";
+import { currentFrameAtom, currentTimeAtom, isPlayingAtom } from "@/atoms/playerAtoms.ts";
 
 
 export function Timeline()
 {
-  const [duration] = useAtom(durationAtom);
+  const [meta] = useAtom(videoMetaAtom);
   const [maxFrame] = useAtom(maxFrameAtom);
 
   const [, setPlaying] = useAtom(isPlayingAtom);
@@ -42,8 +43,8 @@ export function Timeline()
         my-1 md:mx-4
       `}
       min={0}
-      max={duration}
-      step={TimeUtil.getSmallestUnit(duration) ?? 1}
+      max={meta.duration}
+      step={TimeUtil.getSmallestUnit(meta.duration) ?? 1}
       value={currentTime}
       onChange={(e) => {
         setPlaying(false);
@@ -57,7 +58,7 @@ export function Timeline()
       `}
       ref={rightLabelRef}
     >
-      {TimeUtil.formatHhmmssxxx(duration)}({maxFrame}F)
+      {TimeUtil.formatHhmmssxxx(meta.duration)}({maxFrame}F)
     </span>
   </div>
 }

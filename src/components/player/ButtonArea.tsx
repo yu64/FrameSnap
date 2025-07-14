@@ -1,5 +1,5 @@
+import { fpsAtom } from "@/atoms/configAtoms.ts";
 import { currentFrameAtom, currentTimeAtom } from "@/atoms/playerAtoms.ts"
-import { fpsAtom } from "@/atoms/videoFileAtoms.ts";
 import { usePressRepeatHandler } from "@/utils/usePressRepeatHandler.ts";
 import { useAtom } from "jotai"
 import type { ButtonHTMLAttributes } from "react";

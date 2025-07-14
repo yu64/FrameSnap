@@ -1,6 +1,4 @@
-// ファイル選択コンポーネントのプレースホルダ
-
-import { fileAtom, fileUrlAtom } from "@/atoms/index.ts"
+import { fileAtom, fileUrlAtom } from "@/atoms/videoFileAtoms.ts";
 import { useAtom } from "jotai"
 import { useEffect, useRef } from "react";
 

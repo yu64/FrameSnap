@@ -1,6 +1,8 @@
 
 
 
+export function pad2(n: number): string { return String(n).padStart(2, '0') };
+export function pad3(n: number): string { return String(n).padStart(3, '0') };
 
 
 export function formatHhmmssxxx(seconds: number): string
@@ -16,11 +18,38 @@ export function formatHhmmssxxx(seconds: number): string
   const s = Math.floor(remainingMinutes);
   const x = Math.round((remainingMinutes - s) * 1000);
   
-  function pad2(n: number): string { return String(n).padStart(2, '0') };
-  function pad3(n: number): string { return String(n).padStart(3, '0') };
-  
   return `${sign}${pad2(h)}:${pad2(m)}:${pad2(s)}.${pad3(x)}`;
 }
+
+
+export function splitHhmmssxxx(seconds: number): {
+  sign: ("-" | "")
+  h: number
+  m: number
+  s: number
+  x: number
+}
+{
+  const sign = (seconds < 0 ? "-" : "");
+
+  const h = Math.floor(seconds / 3600);
+  const remainingHoures = seconds % 3600;
+
+  const m = Math.floor(remainingHoures / 60);
+  const remainingMinutes = remainingHoures % 60;
+
+  const s = Math.floor(remainingMinutes);
+  const x = Math.round((remainingMinutes - s) * 1000);
+  
+  return {
+    sign,
+    h,
+    m,
+    s,
+    x
+  }
+}
+
 
 /** 指定した実数から最小の値を取り出す。(12.34 => 0.01) */
 export function getSmallestUnit(num: number): number | null

@@ -1,11 +1,12 @@
-// ファイル選択コンポーネントのプレースホルダ
-
-import { currentTimeAtom, durationAtom, fileUrlAtom, isPlayingAtom, videoHeightAtom, videoWidthAtom } from "@/atoms/index.ts"
 import { useAtom } from "jotai"
 import { Timeline } from "@/components/player/Timeline.tsx";
 import { useRef } from "react";
 import { VideoPlayer } from "@/components/player/VideoPlayer.tsx";
 import { ButtonArea } from "@/components/player/ButtonArea";
+import { fileUrlAtom, videoMetaAtom } from "@/atoms/videoFileAtoms.ts";
+import { currentTimeAtom, isPlayingAtom } from "@/atoms/playerAtoms.ts";
+import { useFileNameFormat } from "@/components/advanced/FileNameSelector.tsx";
+import { outputFileNameTemplate as outputFileNameTemplateAtom } from "@/atoms/configAtoms.ts";
 
 
 
@@ -13,22 +14,28 @@ export function VideoPlayerSection()
 {
   const videoRef = useRef<HTMLVideoElement>(null);
 
+
   const [fileUrl] = useAtom(fileUrlAtom);
-  const [, setDuration] = useAtom(durationAtom);
-  const [, setVideoWidth] = useAtom(videoWidthAtom);
-  const [, setVideoHeight] = useAtom(videoHeightAtom);
+  const [, setMeta] = useAtom(videoMetaAtom);
   
   const [currentTime, setCurrentTime] = useAtom(currentTimeAtom);
   const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
 
+  const {format} = useFileNameFormat();
+  const [fileNameTemplate] = useAtom(outputFileNameTemplateAtom);
 
+
+  // メタデータ取得
   function setVideoMeta(e: React.SyntheticEvent<HTMLVideoElement, Event>)
   {
-    setDuration(e.currentTarget.duration);
-    setVideoWidth(e.currentTarget.videoWidth);
-    setVideoHeight(e.currentTarget.videoHeight);
+    setMeta({
+      duration: e.currentTarget.duration,
+      width: e.currentTarget.videoWidth,
+      height: e.currentTarget.videoHeight
+    });
   }
 
+  // フレームを保存
   function saveFrame()
   {
     if(videoRef.current == null) return;
@@ -45,7 +52,7 @@ export function VideoPlayerSection()
 
     const link = document.createElement("a");
     link.href = dataUrl;
-    link.download = 'video.png';
+    link.download = format(fileNameTemplate);
 
     document.body.appendChild(link);
     link.click();

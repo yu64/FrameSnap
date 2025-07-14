@@ -1,3 +1,4 @@
+import { AdvancedConfigSection } from "@/components/advanced/AdvancedConfigSection.tsx";
 import { FileSelectorSection } from "./components/FileSelectorSection.tsx";
 import { TitleSection } from "./components/TitleSection.tsx";
 import { VideoPlayerSection } from "@/components/player/VideoPlayerSection.tsx";
@@ -16,5 +17,7 @@ export default function App()
     <TitleSection/>
     <FileSelectorSection/>
     <VideoPlayerSection/>
+    <AdvancedConfigSection/>
+    <div className="h-screen"></div>
   </div>
 }
