@@ -16,7 +16,7 @@ export function VideoPlayerSection()
 
 
   const [fileUrl] = useAtom(fileUrlAtom);
-  const [, setMeta] = useAtom(videoMetaAtom);
+  const [meta, setMeta] = useAtom(videoMetaAtom);
   
   const [currentTime, setCurrentTime] = useAtom(currentTimeAtom);
   const [isPlaying, setPlaying] = useAtom(isPlayingAtom);
@@ -40,8 +40,8 @@ export function VideoPlayerSection()
   {
     if(videoRef.current == null) return;
     const canvas = document.createElement("canvas");
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
+    canvas.width = meta.width;
+    canvas.height = meta.height;
     
     const ctx = canvas.getContext("2d");
     if(ctx == null) return;

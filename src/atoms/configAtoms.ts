@@ -15,4 +15,7 @@ export const outputFileNameTemplate = atomWithStorage(
   defaultFileTempate
 );
 
+/** 実験的機能。videoの代わりにキャンバスをサムネイルにするか */
+export const canvasEnabledAtom = atomWithStorage("canvasEnabled", false);
+
 

@@ -1,3 +1,5 @@
+import { canvasEnabledAtom } from "@/atoms/configAtoms.ts";
+import { useAtom } from "jotai";
 import { forwardRef, useEffect, useImperativeHandle, useRef, type VideoHTMLAttributes } from "react";
 
 
@@ -18,9 +20,30 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
     ...videoProps
   } = props;
 
-  // refを取得して、外部に公開
+  const [canvasEnabled] = useAtom(canvasEnabledAtom);
+
   const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // refを取得して、外部に公開
   useImperativeHandle(ref, () => videoRef.current!, []);
+
+  function syncCanvas()
+  {
+    if( !(canvasEnabled && !isPlaying)) return;
+
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if(!video || !canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if(!ctx) return;
+
+    if(canvas.width != video.videoWidth) canvas.width = video.videoWidth;
+    if(canvas.height != video.videoHeight) canvas.height = video.videoHeight;
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  }
+
 
   // 再生状態を適用
   useEffect(() => {
@@ -29,11 +52,13 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
     else videoRef.current.pause();
   }, [isPlaying]);
 
+
   // 再生位置を適用
   useEffect(() => {
 
     if(videoRef.current == null) return;
     if(currentTime == null) return;
+    syncCanvas();
 
     // 停止中なら常に再生位置を同期
     if(!isPlaying)
@@ -49,7 +74,8 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
       return;
     }
 
-  }, [currentTime]); // currentTime の変更のみに反応
+  }, [currentTime]); 
+
 
   // 音量を適用
   useEffect(() => {
@@ -58,10 +84,40 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
   }, [isPlaying]);
 
 
-  return <video
-    ref={videoRef}
-    {...videoProps}
+
+  return <div
   >
-    お使いのブラウザはビデオタグをサポートしていません。
-  </video>
+    
+    <video
+      ref={videoRef}
+      className={`
+        w-full h-full
+        ${canvasEnabled && !isPlaying && currentTime != 0 ? "hidden" : ""}
+      `}
+      {...videoProps}
+      onLoadedData={(e) => {
+        syncCanvas(); 
+        videoProps.onLoadedData?.(e);
+      }}
+      onTimeUpdate={(e) => {
+        syncCanvas(); 
+        videoProps.onTimeUpdate?.(e);
+      }}
+    >
+      お使いのブラウザはビデオタグをサポートしていません。
+    </video>
+    <canvas
+      ref={canvasRef}
+      className={`
+        w-full h-full
+        ${canvasEnabled && !isPlaying && currentTime != 0 ? "" : "hidden"}
+      `}
+      onClick={() => {
+        if(videoRef.current == null) return;
+        syncCanvas();
+        videoRef.current.click();
+      }}
+    >
+    </canvas>
+  </div>
 })

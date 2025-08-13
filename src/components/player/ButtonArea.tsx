@@ -80,7 +80,7 @@ export function ButtonArea(props: Props)
     
     <div
       className={`
-        flex flex-row gap-4 flex-justify-start
+        flex flex-row gap-4 justify-end
       `}
     >
       <ControlButton

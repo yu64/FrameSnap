@@ -1,3 +1,4 @@
+import { CanvasUsingSelector } from "@/components/advanced/CanvasUsingSelector.tsx";
 import { FileNameSelector } from "@/components/advanced/FileNameSelector.tsx";
 import { FpsSelector } from "@/components/advanced/FpsSelector.tsx";
 
@@ -16,5 +17,6 @@ export function AdvancedConfigSection()
     <span className="text-xl text-align-center">高度な設定</span>
     <FpsSelector/>
     <FileNameSelector/>
+    <CanvasUsingSelector/>
   </div>
 }
