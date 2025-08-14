@@ -20,7 +20,10 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
     ...videoProps
   } = props;
 
+  const animeIdRef = useRef<number | null>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const [canvasEnabled] = useAtom(canvasEnabledAtom);
+  
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -28,20 +31,43 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
   // refを取得して、外部に公開
   useImperativeHandle(ref, () => videoRef.current!, []);
 
+  /** キャンバスの表示が可能であるか */
+  const canShowCanvas = canvasEnabled && !isPlaying && currentTime != 0;
+
   function syncCanvas()
   {
-    if( !(canvasEnabled && !isPlaying)) return;
+    // すでに予約されている場合、キャンバスの更新をキャンセル
+    if(animeIdRef.current != null)
+    {
+      cancelAnimationFrame(animeIdRef.current);
+      animeIdRef.current = null;
+    }
 
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    if(!video || !canvas) return;
+    // キャンバスの更新を開始
+    animeIdRef.current = requestAnimationFrame(() => {
 
-    const ctx = canvas.getContext("2d");
-    if(!ctx) return;
-
-    if(canvas.width != video.videoWidth) canvas.width = video.videoWidth;
-    if(canvas.height != video.videoHeight) canvas.height = video.videoHeight;
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      if( !(canvasEnabled && !isPlaying)) return;
+  
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      if(!video || !canvas) return;
+  
+      // コンテキストを取得
+      if(
+        canvas.width != video.videoWidth
+        || canvas.height != video.videoHeight
+      )
+      {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctxRef.current = canvas.getContext("2d");
+      }
+  
+      const ctx = ctxRef.current;
+      if(!ctx) return;
+  
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    });
   }
 
 
@@ -83,6 +109,10 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
     (volume != null) && (videoRef.current.volume = volume);
   }, [isPlaying]);
 
+  // 設定変更時のキャンバス初期化
+  useEffect(() => {
+    if(canvasEnabled) syncCanvas();
+  }, [canvasEnabled]);
 
 
   return <div
@@ -92,7 +122,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
       ref={videoRef}
       className={`
         w-full h-full
-        ${canvasEnabled && !isPlaying && currentTime != 0 ? "hidden" : ""}
+        ${canShowCanvas ? "hidden" : ""}
       `}
       {...videoProps}
       onLoadedData={(e) => {
@@ -110,8 +140,9 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, Props>((props: Props, re
       ref={canvasRef}
       className={`
         w-full h-full
-        ${canvasEnabled && !isPlaying && currentTime != 0 ? "" : "hidden"}
+        ${canShowCanvas ? "" : "hidden"}
       `}
+      style={(canShowCanvas ? { willChange: "transform" } : {})}
       onClick={() => {
         if(videoRef.current == null) return;
         syncCanvas();
